@@ -1,28 +1,43 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="./assets/img/4geeks.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Domain Generator</title>
-
-    <!-- Fontawesome is our recomended library for icons -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-
-    <h1>Domain Generator 👨🏻‍💻</h1>
-
-    <div id="box">
-      <p id="domain"></p>
-      <button id="nextBtn">Next</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Domain Name Generator</title>
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+    crossorigin="anonymous"/>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Domain Name Generator</h1>
+    <div class="arrays-grid">
+      <div>
+        <h3>Pronouns</h3>
+        <ul id="pronoun-list"></ul>
+      </div>
+      <div>
+        <h3>Adjectives</h3>
+        <ul id="adj-list"></ul>
+      </div>
+      <div>
+        <h3>Nouns</h3>
+        <ul id="noun-list"></ul>
+      </div>
+      <div>
+        <h3>Extensions</h3>
+        <ul id="extensions-list"></ul>
+      </div>
     </div>
 
-    <script type="module" src="/app.js"></script>
-  </body>
+    <h2>Generated Domains</h2>
+    <ul id="domain-list"></ul>
+  </div>
+
+  
+  <script type="module" src="./app.js"></script>
+</body>
 </html>

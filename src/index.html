@@ -14,29 +14,49 @@
 <body>
   <div class="container">
     <h1>Domain Name Generator</h1>
+    
     <div class="arrays-grid">
       <div>
         <h3>Pronouns</h3>
+        <div class="input-group">
+          <input type="text" id="input-pronoun" placeholder="add a pronoun">
+          <button onclick="addWord('pronoun')">Add</button>
+        </div>
         <ul id="pronoun-list"></ul>
       </div>
+      
       <div>
         <h3>Adjectives</h3>
+        <div class="input-group">
+          <input type="text" id="input-adj" placeholder="add an adjective">
+          <button onclick="addWord('adj')">Add</button>
+        </div>
         <ul id="adj-list"></ul>
       </div>
+      
       <div>
         <h3>Nouns</h3>
+        <div class="input-group">
+          <input type="text" id="input-noun" placeholder="add a noun">
+          <button onclick="addWord('noun')">Add</button>
+        </div>
         <ul id="noun-list"></ul>
       </div>
+      
       <div>
         <h3>Extensions</h3>
+        <div class="input-group">
+          <input type="text" id="input-ext" placeholder="add an extension (e.g. .app)">
+          <button onclick="addWord('ext')">Add</button>
+        </div>
         <ul id="extensions-list"></ul>
       </div>
     </div>
-
+    
     <h2>Generated Domains</h2>
+    <p id="domain-count" style="font-weight: bold; color: #0066cc;"></p>
     <ul id="domain-list"></ul>
   </div>
-
   
   <script type="module" src="./app.js"></script>
 </body>

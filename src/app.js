@@ -1,109 +1,83 @@
 import "./style.css";
 
-let pronoun = ['the', 'our', 'your'];
-let adj = ['great', 'cute', 'majestic'];
-let noun = ['bunny', 'rainbow', 'unicorn'];
-let extensions = ['.com', '.net', '.io'];
-
-window.onload = function () {
-  const pronounList = document.getElementById('pronoun-list');
-  const adjList = document.getElementById('adj-list');
-  const nounList = document.getElementById('noun-list');
-  const extensionsList = document.getElementById('extensions-list');
-  const domainList = document.getElementById('domain-list');
-  const domainCount = document.getElementById('domain-count');
-
-  function fillList(element, array) {
-    element.innerHTML = '';
-    array.forEach(item => {
-      const li = document.createElement('li');
-      li.textContent = item;
-      element.appendChild(li);
-    });
-  }
-
-  function generateDomains() {
-    domainList.innerHTML = '';
-    let count = 0;
-    for (let p = 0; p < pronoun.length; p++) {
-      for (let a = 0; a < adj.length; a++) {
-        for (let n = 0; n < noun.length; n++) {
-          for (let e = 0; e < extensions.length; e++) {
-            const domain = pronoun[p] + adj[a] + noun[n] + extensions[e];
-            const li = document.createElement('li');
-            li.textContent = domain;
-            domainList.appendChild(li);
-            count++;
-          }
-        }
-      }
-    }
-    if (domainCount) domainCount.textContent = `${count} domains generated`;
-  }
-
-  fillList(pronounList, pronoun);
-  fillList(adjList, adj);
-  fillList(nounList, noun);
-  fillList(extensionsList, extensions);
-
-  generateDomains();
+const data = {
+  pronoun: { array: ['the', 'our', 'your'], id: 'pronoun-list', inputId: 'input-pronoun' },
+  adj: { array: ['great', 'cute', 'majestic'], id: 'adj-list', inputId: 'input-adj' },
+  noun: { array: ['bunny', 'rainbow', 'unicorn'], id: 'noun-list', inputId: 'input-noun' },
+  ext: { array: ['.com', '.net', '.io'], id: 'extensions-list', inputId: 'input-ext' }
 };
 
-function addWord(category) {
-  let input, array;
-  if (category === 'pronoun') {
-    input = document.getElementById('input-pronoun');
-    array = pronoun;
-  } else if (category === 'adj') {
-    input = document.getElementById('input-adj');
-    array = adj;
-  } else if (category === 'noun') {
-    input = document.getElementById('input-noun');
-    array = noun;
-  } else if (category === 'ext') {
-    input = document.getElementById('input-ext');
-    array = extensions;
-  }
+const domainList = document.getElementById('domain-list');
+const domainCount = document.getElementById('domain-count');
 
-  const value = input.value.trim().toLowerCase();
-  if (value) {
-    if (array.includes(value)) {
-      alert(`"${value}" is already in the list!`);
-    } else {
-      array.push(value);
-     
-      document.getElementById(
-        category === 'ext' ? 'extensions-list' : category + '-list'
-      ).innerHTML = '';
-      array.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        document.getElementById(
-          category === 'ext' ? 'extensions-list' : category + '-list'
-        ).appendChild(li);
-      });
-
-      const domainList = document.getElementById('domain-list');
-      const domainCount = document.getElementById('domain-count');
-      domainList.innerHTML = '';
-      let count = 0;
-      for (let p = 0; p < pronoun.length; p++) {
-        for (let a = 0; a < adj.length; a++) {
-          for (let n = 0; n < noun.length; n++) {
-            for (let e = 0; e < extensions.length; e++) {
-              const domain = pronoun[p] + adj[a] + noun[n] + extensions[e];
-              const li = document.createElement('li');
-              li.textContent = domain;
-              domainList.appendChild(li);
-              count++;
-            }
-          }
-        }
-      }
-      if (domainCount) domainCount.textContent = `${count} domains generated`;
-    }
-    input.value = '';
-  }
+function updateList(category) {
+  const { array, id } = data[category];
+  const ul = document.getElementById(id);
+  ul.innerHTML = '';
+  array.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    ul.appendChild(li);
+  });
 }
 
+function generateDomains() {
+  domainList.innerHTML = '';
+  let count = 0;
+  const [pronouns, adjs, nouns, exts] = Object.values(data).map(d => d.array);
+  
+  for (const p of pronouns)
+  for (const a of adjs)
+  for (const n of nouns)
+  for (const e of exts) {
+    const li = document.createElement('li');
+    li.textContent = p + a + n + e;
+    domainList.appendChild(li);
+    count++;
+  }
+  
+  if (domainCount) domainCount.textContent = `${count} domains generated`;
+  setupDeleteButtons();
+}
+
+function addWord(category) {
+  const { inputId, array } = data[category];
+  const input = document.getElementById(inputId);
+  const value = input.value.trim().toLowerCase();
+  
+  if (value && !array.includes(value)) {
+    array.push(value);
+    updateList(category);
+    generateDomains();
+  }
+  input.value = '';
+}
 window.addWord = addWord;
+
+function setupDeleteButtons() {
+  Object.keys(data).forEach(cat => {
+    const { array, id } = data[cat];
+    const ul = document.getElementById(id);
+    Array.from(ul.children).forEach(li => {
+      if (li.querySelector('.delete-btn')) return;
+      
+      const text = li.textContent.trim();
+      const btn = document.createElement('span');
+      btn.className = 'delete-btn';
+      btn.textContent = ' ×';
+      
+      btn.onclick = () => {
+        const i = array.indexOf(text.toLowerCase());
+        if (i > -1) array.splice(i, 1);
+        updateList(cat);
+        generateDomains();
+      };
+      li.appendChild(btn);
+    });
+  });
+}
+
+window.onload = () => {
+  Object.keys(data).forEach(updateList);
+  generateDomains();
+};
